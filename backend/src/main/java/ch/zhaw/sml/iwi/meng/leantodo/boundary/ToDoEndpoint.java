@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,6 +33,9 @@ public class ToDoEndpoint {
     @RequestMapping(path = "/api/todo/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ToDo> getToDo(@PathVariable(name = "id") Long toDoId, Principal principal) {
+        if(toDoId == null) {
+            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         Optional<ToDo> resOpt = toDoRepository.findById(toDoId);
 
         if(resOpt.isEmpty()) {

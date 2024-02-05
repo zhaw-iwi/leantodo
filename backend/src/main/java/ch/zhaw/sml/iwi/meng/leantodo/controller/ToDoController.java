@@ -27,7 +27,12 @@ public class ToDoController {
     }
 
     public void updateToDo(ToDo toDo, String owner) {
-        Optional<ToDo> origOpt = toDoRepository.findById(toDo.getId());
+        Long toDoId = toDo.getId();
+        if(toDoId == null) {
+            return;
+        }
+        
+        Optional<ToDo> origOpt = toDoRepository.findById(toDoId);
         // Check if the original ToDo was present and that it belonged to the same owner
         if(origOpt.isEmpty() || !origOpt.get().getOwner().equals(owner)) {
             return;

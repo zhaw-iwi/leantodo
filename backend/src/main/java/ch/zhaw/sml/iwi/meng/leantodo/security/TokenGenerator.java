@@ -30,7 +30,9 @@ public class TokenGenerator {
     public UserAuthResponse generateJWT(String username) {
 
         UserAuthResponse userAuthResponse = new UserAuthResponse();
-
+        if (username == null) {
+            return null;
+        }
         User user = userRepository.findById(username).get();
         if (user == null) {
             return null;
